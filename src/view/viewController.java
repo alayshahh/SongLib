@@ -6,6 +6,15 @@
 
 package view;
 
+import javafx.stage.Stage;
+
+
+
 public class viewController {
+	
+	
+	public void start (Stage mainStage) {
+		//TODO start method
+	}
 
 }
