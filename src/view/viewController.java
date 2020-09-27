@@ -15,13 +15,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 import java.util.Comparator;
 import javafx.event.ActionEvent;
-
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Button;
 
 
 
@@ -36,6 +38,11 @@ public class viewController {
 	@FXML TextField songArtist;
 	@FXML TextField songAlbum;
 	@FXML TextField songYear;
+	@FXML ButtonBar addConfirm;
+	@FXML ButtonBar editConfirm;
+	@FXML ButtonBar addEditDel;
+	@FXML Button add;
+	@FXML Button edit;
 	
 	//CSS styling for textfield
 	private static  String nonEditableTextField = "-fx-control-inner-background: #f4f4f4; -fx-background-insets: 0; -fx-background-radius: 0; -fx-background-color: -fx-text-box-border, -fx-control-inner-background;";
@@ -80,6 +87,10 @@ public class viewController {
 		songAlbum.setStyle(nonEditableTextField);
 		songYear.setStyle(nonEditableTextField);
 		
+		//hide add and edit confirm buttons
+		addConfirm.setVisible(false);
+		editConfirm.setVisible(false);
+		
 		
 		//automatically selects first item -> need to check if it is there in show method
 		listView.getSelectionModel().select(0);
@@ -104,12 +115,89 @@ public class viewController {
 		//Show selected Item
 	}
 	
-	public void addSong(ActionEvent e) {
-		//when user wants to add new song
+	public void editUI(ActionEvent e) {
+		
+		//Adjusting UI For Adding/Editing Song
+		
+		Button b = (Button)e.getSource();
+		
+		//edit the textfields to be editable and change UI
+		
+		songName.setEditable(true);
+		songArtist.setEditable(true);
+		songAlbum.setEditable(true);
+		songYear.setEditable(true);
+		
+		//easier to understand UI so it makes sense that they cannot edit 
+		songName.setStyle("");
+		songArtist.setStyle("");
+		songAlbum.setStyle("");
+		songYear.setStyle("");
+		
+		songName.setPromptText("Title");
+		songArtist.setPromptText("Artist");
+		songAlbum.setPromptText("Album (Optional)");
+		songYear.setPromptText("Year Released (Optional)");
+		
+		addEditDel.setDisable(true);
+		
+		
+		//if editing the data will be in the text field
+//		
+		if (b==add) {
+			addConfirm.setVisible(true);
+			
+		}else {
+			editConfirm.setVisible(true);
+			songName.setText(listView.getSelectionModel().getSelectedItem().title);
+			songArtist.setText(listView.getSelectionModel().getSelectedItem().artist);
+			songAlbum.setText(listView.getSelectionModel().getSelectedItem().album);
+			songYear.setText(listView.getSelectionModel().getSelectedItem().year);
+			
+		}
+		
+	
+		
 	}
 	
-	public void editSong(ActionEvent e) {
+	public void addMusic(ActionEvent e) {
+		
+		
+		/* Cases:
+		 
+		 Song, artist, album? and year?
+		 
+		 They dont have song or artist -> invalid song name and/or artist name
+		 
+		 They have a non numerical year -> check if year is int -> Integer.parseInt()
+		 
+		 The song they want to add is already there
+		 
+		 */
+		
+		String name = songName.getText().trim();
+		
+		String artist = songArtist.getText().trim();
+		
+		
+		
+	
+		
+		if (artist.isEmpty()||name.isEmpty()) {
+			System.out.println(name + "|Artist:"+ artist+ "|");
+		}
+		
+		
+		
+		
+	}
+	
+	public void editMusic(ActionEvent e) {
 		//user wants to edit current song
+		
+		
+		
+		
 	}
 	
 	public void deleteSong(ActionEvent e) {

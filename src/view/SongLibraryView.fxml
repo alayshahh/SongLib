@@ -26,11 +26,11 @@
             <Label text="Song Details" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
-      <ListView fx:id="listView" layoutX="25.0" layoutY="37.0" prefHeight="312.0" prefWidth="239.0" />
-      <ButtonBar layoutX="286.0" layoutY="349.0" prefHeight="40.0" prefWidth="307.0">
+      <ListView fx:id="listView" layoutX="25.0" layoutY="37.0" prefHeight="308.0" prefWidth="239.0" />
+      <ButtonBar fx:id="addEditDel" layoutX="8.0" layoutY="349.0" prefHeight="40.0" prefWidth="267.0">
          <buttons>
-            <Button mnemonicParsing="false" onAction="#addSong" text="Add Song" />
-            <Button mnemonicParsing="false" onAction="#editSong" text="Edit" />
+            <Button fx:id="add" mnemonicParsing="false" onAction="#editUI" text="Add Song" />
+            <Button fx:id="edit" minWidth="52.0" mnemonicParsing="false" onAction="#editUI" prefHeight="27.0" text="Edit" />
             <Button mnemonicParsing="false" onAction="#deleteSong" prefHeight="27.0" prefWidth="98.0" text="Delete" />
          </buttons>
          <padding>
@@ -59,6 +59,18 @@
             <TextField fx:id="songArtist" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="songAlbum" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="songYear" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ButtonBar fx:id="addConfirm" prefHeight="52.0" prefWidth="229.0" GridPane.rowIndex="5">
+              <buttons>
+                <Button mnemonicParsing="false" onAction="#addMusic" text="Add" />
+                  <Button mnemonicParsing="false" text="Cancel" />
+              </buttons>
+            </ButtonBar>
+            <ButtonBar fx:id="editConfirm" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+              <buttons>
+                  <Button mnemonicParsing="false" text="Cancel" />
+                <Button mnemonicParsing="false" onAction="#editMusic" text="Edit" />
+              </buttons>
+            </ButtonBar>
          </children>
       </GridPane>
    </children>
