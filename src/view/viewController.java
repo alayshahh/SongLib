@@ -174,19 +174,50 @@ public class viewController {
 		 The song they want to add is already there
 		 
 		 */
+		boolean alerted = false;
 		
 		String name = songName.getText().trim();
 		
 		String artist = songArtist.getText().trim();
 		
-		
-		
-	
-		
 		if (artist.isEmpty()||name.isEmpty()) {
-			System.out.println(name + "|Artist:"+ artist+ "|");
+			//ALERT 
+			alerted = true;
+			System.out.println("ALERT EMPTY ARTSIT/SONG");
+			
+			
+		}
+		Song addThis = new Song(name, artist);
+		
+		String album = songAlbum.getText().trim();
+		String year = songYear.getText().trim();
+		
+		if(!album.isEmpty()) {
+			addThis.album=album;
+		}
+		if(!year.isEmpty()) {
+			//check if its an integer
+			boolean yearFormat= true;
+			for(int i =0; i<year.length(); i++) {
+				if(year.charAt(i)<'0'||year.charAt(i)>'9') {
+					//ALERT Wrong FORMAT FOR YEAR
+					yearFormat=false;
+					alerted = true;
+					System.out.println("ALERT Incorrect format year");
+					return;
+				}
+			}
+			if(yearFormat) {
+				addThis.year=year;
+			}
 		}
 		
+		
+		if(!alerted) {
+			//check if it already is in the list
+			//if not then add & select it
+			
+		}
 		
 		
 		
