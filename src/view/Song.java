@@ -5,19 +5,53 @@
 package view;
 
 public class Song {
-	String title;
-	String artist;
-	String album;
-	String year;
+	String songTitle;
+	String songArtist;
+	String songAlbum;
+	String songYear;
 	
 	
 	//general constructor we can set the album and artist after we verify that there isnt a duplicate entry & can validate the year field
 	public Song (String title, String artist) {
-		this.title = title.trim();
-		this.artist = artist.trim();
-		this.album = "";
-		this.year = "";
+		this.songTitle = title.trim();
+		this.songArtist = artist.trim();
+		this.songAlbum = "";
+		this.songYear = "";
 	}
+	 //grab data
+	public String title() {
+		return songTitle;
+	}
+	
+	public String artist() {
+		return songArtist;
+	}
+	
+	public String album() {
+		return songAlbum;
+	}
+	
+	public String year() {
+		return songYear;
+	}
+	
+	//setting the variable
+	public void getSongTitle(String songTitle) {
+		this.songTitle = songTitle;
+	}
+	
+	public void getSongArtist(String songArtist) {
+		 this.songArtist = songArtist;
+	}
+	
+	public void getSongAlbum(String songAlbum) {
+		 this.songAlbum = songAlbum;
+	}
+	
+	public void getSongYear(String songYear) {
+		 this.songYear = songYear;
+	}
+	
 	
 	// to check if the song already exists in the lib
 	public static boolean equals(Song s1, Song s2 ) {
@@ -41,7 +75,7 @@ public class Song {
 	
 	//for display
 	public String toString() {
-		return title + " by "+ artist;
+		return songTitle + " by "+ songArtist;
 	}
 	
 
