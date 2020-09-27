@@ -7,14 +7,13 @@
 
 package app;
 
-import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import view.viewController;
+import view.ViewController;
 
 
 public class SongLib extends Application {
@@ -26,7 +25,7 @@ public class SongLib extends Application {
 		loader.setLocation(getClass().getResource("/view/SongLibraryView.fxml")); //loader now will load the FXML we created
 		AnchorPane root = (AnchorPane)loader.load();
 
-		viewController viewController = 
+		ViewController viewController = 
 				loader.getController();
 		
 		viewController.start(primaryStage);

@@ -15,12 +15,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import javafx.util.Pair;
+//import javafx.util.Pair;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-import java.util.Comparator;
+//import java.util.Comparator;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Button;
@@ -31,7 +31,7 @@ import javafx.scene.control.Button;
 
 
 
-public class viewController {
+public class ViewController {
 	
 	@FXML ListView<Song> listView;
 	@FXML TextField songName;
@@ -55,7 +55,6 @@ public class viewController {
 	public void start (Stage mainStage) {
 		
 		
-		//TODO get songs from file and write to file methods
 		
 		//songs to test methods for now
 		
@@ -108,14 +107,52 @@ public class viewController {
 		
 	}
 	
+	public int has(ObservableList<Song> list, Song s) { //checks if the list has the Song and returns the song index if it does
+		for ( int i =0; i< list.size(); i++) {
+			Song cur = list.get(i);
+			if(Song.equals(cur, s)) {
+				return i;
+			}
+		}
 		
-	
-	
-	public void showItem(Stage mainStage) {
-		//Show selected Item
+		return -1;
+		
 	}
 	
-	public void editUI(ActionEvent e) {
+	
+	public void showItem(Stage mainStage) {  //shows the selected item w correct UI
+		//Show selected Item
+		songName.setEditable(false);
+		songArtist.setEditable(false);
+		songAlbum.setEditable(false);
+		songYear.setEditable(false);
+		
+		//easier to understand UI so it makes sense that they cannot edit 
+		songName.setStyle(nonEditableTextField);
+		songArtist.setStyle(nonEditableTextField);
+		songAlbum.setStyle(nonEditableTextField);
+		songYear.setStyle(nonEditableTextField);
+		
+		addConfirm.setVisible(false);
+		editConfirm.setVisible(false);
+		addEditDel.setDisable(false);
+		
+		if(listView.getSelectionModel().getSelectedItem()!= null) { 
+		
+			songName.setText(listView.getSelectionModel().getSelectedItem().getTitle());
+			songArtist.setText(listView.getSelectionModel().getSelectedItem().getArtist());
+			songAlbum.setText(listView.getSelectionModel().getSelectedItem().getAlbum());
+			songYear.setText(listView.getSelectionModel().getSelectedItem().getYear());
+		}else {
+			songName.setText("");
+			songArtist.setText("");
+			songAlbum.setText("");
+			songYear.setText("");
+		}
+		
+	}
+	
+	public void editUI(ActionEvent e) {  //sets screen to enable editing songs or adding songs
 		
 		//Adjusting UI For Adding/Editing Song
 		
@@ -139,6 +176,8 @@ public class viewController {
 		songAlbum.setPromptText("Album (Optional)");
 		songYear.setPromptText("Year Released (Optional)");
 		
+		
+		
 		addEditDel.setDisable(true);
 		
 		
@@ -146,13 +185,14 @@ public class viewController {
 //		
 		if (b==add) {
 			addConfirm.setVisible(true);
+			songName.setText("");
+			songArtist.setText("");
+			songAlbum.setText("");
+			songYear.setText("");
 			
 		}else {
 			editConfirm.setVisible(true);
-			songName.setText(listView.getSelectionModel().getSelectedItem().title);
-			songArtist.setText(listView.getSelectionModel().getSelectedItem().artist);
-			songAlbum.setText(listView.getSelectionModel().getSelectedItem().album);
-			songYear.setText(listView.getSelectionModel().getSelectedItem().year);
+			
 			
 		}
 		
@@ -174,7 +214,6 @@ public class viewController {
 		 The song they want to add is already there
 		 
 		 */
-		boolean alerted = false;
 		
 		String name = songName.getText().trim();
 		
@@ -182,8 +221,8 @@ public class viewController {
 		
 		if (artist.isEmpty()||name.isEmpty()) {
 			//ALERT 
-			alerted = true;
 			System.out.println("ALERT EMPTY ARTSIT/SONG");
+			return;
 			
 			
 		}
@@ -193,31 +232,21 @@ public class viewController {
 		String year = songYear.getText().trim();
 		
 		if(!album.isEmpty()) {
-			addThis.album=album;
+			addThis.setAlbum(album);
 		}
 		if(!year.isEmpty()) {
 			//check if its an integer
-			boolean yearFormat= true;
 			for(int i =0; i<year.length(); i++) {
 				if(year.charAt(i)<'0'||year.charAt(i)>'9') {
 					//ALERT Wrong FORMAT FOR YEAR
-					yearFormat=false;
-					alerted = true;
 					System.out.println("ALERT Incorrect format year");
 					return;
 				}
 			}
-			if(yearFormat) {
-				addThis.year=year;
-			}
-		}
-		
-		
-		if(!alerted) {
-			//check if it already is in the list
-			//if not then add & select it
 			
+			addThis.setYear(year);
 		}
+		
 		
 		
 		
@@ -225,9 +254,6 @@ public class viewController {
 	
 	public void editMusic(ActionEvent e) {
 		//user wants to edit current song
-		
-		
-		
 		
 	}
 	

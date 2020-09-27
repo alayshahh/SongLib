@@ -5,10 +5,10 @@
 package view;
 
 public class Song {
-	String songTitle;
-	String songArtist;
-	String songAlbum;
-	String songYear;
+	private String songTitle;
+	private String songArtist;
+	private String songAlbum;
+	private String songYear;
 	
 	
 	//general constructor we can set the album and artist after we verify that there isnt a duplicate entry & can validate the year field
@@ -19,36 +19,36 @@ public class Song {
 		this.songYear = "";
 	}
 	 //grab data
-	public String title() {
+	public String getTitle() {
 		return songTitle;
 	}
 	
-	public String artist() {
+	public String getArtist() {
 		return songArtist;
 	}
 	
-	public String album() {
+	public String getAlbum() {
 		return songAlbum;
 	}
 	
-	public String year() {
+	public String getYear() {
 		return songYear;
 	}
 	
 	//setting the variable
-	public void getSongTitle(String songTitle) {
+	public void setTitle(String songTitle) {
 		this.songTitle = songTitle;
 	}
 	
-	public void getSongArtist(String songArtist) {
+	public void setArtist(String songArtist) {
 		 this.songArtist = songArtist;
 	}
 	
-	public void getSongAlbum(String songAlbum) {
+	public void setAlbum(String songAlbum) {
 		 this.songAlbum = songAlbum;
 	}
 	
-	public void getSongYear(String songYear) {
+	public void setYear(String songYear) {
 		 this.songYear = songYear;
 	}
 	
