@@ -61,14 +61,14 @@
             <TextField fx:id="songYear" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ButtonBar fx:id="addConfirm" prefHeight="52.0" prefWidth="229.0" GridPane.rowIndex="5">
               <buttons>
-                <Button mnemonicParsing="false" onAction="#addMusic" text="Add" />
-                  <Button mnemonicParsing="false" text="Cancel" />
+                <Button fx:id="addNow" mnemonicParsing="false" onAction="#addMusic" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#cancelledAction" text="Cancel" />
               </buttons>
             </ButtonBar>
             <ButtonBar fx:id="editConfirm" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
               <buttons>
-                  <Button mnemonicParsing="false" text="Cancel" />
-                <Button mnemonicParsing="false" onAction="#editMusic" text="Edit" />
+                  <Button mnemonicParsing="false" onAction="#cancelledAction" text="Cancel" />
+                <Button fx:id="editNow" mnemonicParsing="false" onAction="#addMusic" text="Edit" />
               </buttons>
             </ButtonBar>
          </children>

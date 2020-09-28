@@ -43,6 +43,8 @@ public class ViewController {
 	@FXML ButtonBar addEditDel;
 	@FXML Button add;
 	@FXML Button edit;
+	@FXML Button addNow;
+	@FXML Button editNow;
 	
 	//CSS styling for textfield
 	private static  String nonEditableTextField = "-fx-control-inner-background: #f4f4f4; -fx-background-insets: 0; -fx-background-radius: 0; -fx-background-color: -fx-text-box-border, -fx-control-inner-background;";
@@ -58,12 +60,12 @@ public class ViewController {
 		
 		//songs to test methods for now
 		
-		Song x = new Song ("one", "x");
-		Song y = new Song("two", "y");
-		Song z = new Song("song", "z");
-		Song w = new Song("one", "w");
-		
-		obsList = FXCollections.observableArrayList(x,y,z,w); //here we would populate it with the song array returned by the get from file method
+//		Song x = new Song ("one", "x");
+//		Song y = new Song("two", "y");
+//		Song z = new Song("song", "z");
+//		Song w = new Song("one", "w");
+//		
+		obsList = FXCollections.observableArrayList(); //here we would populate it with the song array returned by the get from file method
 		
 		listView.setItems(obsList);
 		
@@ -118,8 +120,7 @@ public class ViewController {
 		return -1;
 		
 	}
-	
-	
+
 	public void showItem(Stage mainStage) {  //shows the selected item w correct UI
 		//Show selected Item
 		songName.setEditable(false);
@@ -132,7 +133,10 @@ public class ViewController {
 		songArtist.setStyle(nonEditableTextField);
 		songAlbum.setStyle(nonEditableTextField);
 		songYear.setStyle(nonEditableTextField);
-		
+		songName.setPromptText("");
+		songArtist.setPromptText("");
+		songAlbum.setPromptText("");
+		songYear.setPromptText("");
 		addConfirm.setVisible(false);
 		editConfirm.setVisible(false);
 		addEditDel.setDisable(false);
@@ -200,7 +204,7 @@ public class ViewController {
 		
 	}
 	
-	public void addMusic(ActionEvent e) {
+	public void addMusic(ActionEvent e) { //allows user to add a song or edit the selected song
 		
 		
 		/* Cases:
@@ -215,45 +219,97 @@ public class ViewController {
 		 
 		 */
 		
-		String name = songName.getText().trim();
+		String name = songName.getText().trim(); 
 		
 		String artist = songArtist.getText().trim();
 		
-		if (artist.isEmpty()||name.isEmpty()) {
+		if (artist.isEmpty()||name.isEmpty()) { //has the user put in vilid song information?
 			//ALERT 
 			System.out.println("ALERT EMPTY ARTSIT/SONG");
+			Alert illegalSong = new Alert(AlertType.INFORMATION);
+			illegalSong.setTitle("Error");
+			illegalSong.setHeaderText("Song title and artist are required");
+			illegalSong.showAndWait();
+			
 			return;
 			
 			
 		}
-		Song addThis = new Song(name, artist);
+		Song addThis = new Song(name, artist); //create song object
 		
 		String album = songAlbum.getText().trim();
 		String year = songYear.getText().trim();
 		
-		if(!album.isEmpty()) {
+		if(!album.isEmpty()) { //if they added an album, save it 
 			addThis.setAlbum(album);
 		}
-		if(!year.isEmpty()) {
+		if(!year.isEmpty()) {  //if they added a year, validate the year
 			//check if its an integer
 			for(int i =0; i<year.length(); i++) {
 				if(year.charAt(i)<'0'||year.charAt(i)>'9') {
 					//ALERT Wrong FORMAT FOR YEAR
 					System.out.println("ALERT Incorrect format year");
+					Alert illegalSong = new Alert(AlertType.INFORMATION);
+					illegalSong.setTitle("Error");
+					illegalSong.setHeaderText("Year is not valid");
+					illegalSong.showAndWait();
 					return;
 				}
 			}
 			
-			addThis.setYear(year);
+			addThis.setYear(year); //set year
 		}
 		
+		//at this point all information the user has put in for the song is added and validated, if not they will get to edit
+		
+		Button b = (Button)e.getSource();  //check if they wnated to add the song or edit the song
 		
 		
+		if(b==addNow) { 
+			int i = has(obsList, addThis); //check if the song is already in the library
+			if(i!=-1) { //if it is send alert and show where it exists
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Duplicate Item");
+				alert.setHeaderText("You already have this song in your library.");
+				alert.showAndWait();
+				listView.getSelectionModel().select(i);
+			}else { //if the song isnt in it add it and sort it and show the song
+				obsList.add(addThis);
+				Comparator<Song> byTitleAndArtist = Comparator.comparing(Song::toLowerCaseString);
+				FXCollections.sort(obsList, byTitleAndArtist);
+				listView.getSelectionModel().select(obsList.indexOf(addThis));
+			}
+		
+		}else { //if they wanted to edit a given song
+			int curIndex = listView.getSelectionModel().getSelectedIndex();
+			int i = has(obsList, addThis); //checks if the song is already in the library
+			if(i==-1||i == curIndex) {  //if the song isnt in the library or matches the one they wanted to edit then changes are saved
+    			
+				obsList.remove(curIndex);
+    			obsList.add(addThis);
+    			Comparator<Song> byTitleAndArtist = Comparator.comparing(Song::toLowerCaseString);
+    			FXCollections.sort(obsList, byTitleAndArtist);
+    			listView.getSelectionModel().select(obsList.indexOf(addThis));
+ 
+    		
+    		}else {
+    			Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setTitle("Duplicate Item");
+    			alert.setHeaderText("You already have this song in your library.");
+    			alert.showAndWait();
+    			listView.getSelectionModel().select(i);
+    		}
+			
+		}
 		
 	}
 	
-	public void editMusic(ActionEvent e) {
-		//user wants to edit current song
+	public void cancelledAction() {
+		System.out.println("Cancelled");
+		int x = listView.getSelectionModel().getSelectedIndex();
+		listView.getSelectionModel().clearSelection();
+		listView.getSelectionModel().select(x);
+		
 		
 	}
 	
