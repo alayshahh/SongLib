@@ -6,6 +6,12 @@
 
 package view;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -53,18 +59,17 @@ public class viewController {
 	//where we will populate the Songs
 	private ObservableList<Song> obsList;
 	
-	
 	public void start (Stage mainStage) {
 		
 		
 		
 		//songs to test methods for now
 		
-//		Song x = new Song ("one", "x");
-//		Song y = new Song("two", "y");
-//		Song z = new Song("song", "z");
-//		Song w = new Song("one", "w");
-//		
+		Song x = new Song ("one", "x");
+		Song y = new Song("two", "y");
+		Song z = new Song("song", "z");
+		Song w = new Song("one", "w");
+		
 		obsList = FXCollections.observableArrayList(); //here we would populate it with the song array returned by the get from file method
 		
 		listView.setItems(obsList);
@@ -106,6 +111,49 @@ public class viewController {
 				showItem(mainStage));
 		
 		
+		
+	}
+	
+	public void makeFile() throws IOException{
+		File songList = new File ("songList.txt");
+		
+		if (songList.exists()){
+			songList.delete();
+		}
+		if(songList.length() == 0) {
+			return;
+		}
+		songList.createNewFile();	
+		
+		BufferedWriter write = new BufferedWriter(new FileWriter(songList, true));
+		write.append(' ');
+		write.append((CharSequence) obsList);
+		write.close();
+	
+		/*FileWriter insert = new FileWriter(songList);
+		insert.write(obsList.size());
+		insert.close();*/
+	}
+	
+	public void readData() throws IOException {
+		try {
+			String input;
+			FileReader readFromFile = new FileReader("songList.txt");
+			BufferedReader read = new BufferedReader(readFromFile);
+			
+			while((input = read.readLine()) != null) {
+				System.out.println(input);
+			}
+			read.close();
+		}
+		catch(Exception x){
+			x.printStackTrace();
+		}
+		/*int length = obsList.size();
+		FileWriter writeTo = new FileWriter("songList.txt");
+		for(int i = 0; i < length;i++) {
+			writeTo(obsList.get(songName))
+		}*/
 		
 	}
 	
