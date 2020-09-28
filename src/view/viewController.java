@@ -31,7 +31,7 @@ import javafx.scene.control.Button;
 
 
 
-public class ViewController {
+public class viewController {
 	
 	@FXML ListView<Song> listView;
 	@FXML TextField songName;
