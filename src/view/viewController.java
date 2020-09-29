@@ -37,7 +37,7 @@ import javafx.scene.control.Button;
 
 
 
-public class viewController {
+public class ViewController {
 	
 	@FXML ListView<Song> listView;
 	@FXML TextField songName;
@@ -210,6 +210,10 @@ public class viewController {
 		
 		Button b = (Button)e.getSource();
 		
+		if(listView.getSelectionModel().getSelectedItem()==null && b==edit) {
+			return;
+		}
+		
 		//edit the textfields to be editable and change UI
 		
 		songName.setEditable(true);
@@ -355,8 +359,34 @@ public class viewController {
 	public void cancelledAction() {
 		System.out.println("Cancelled");
 		int x = listView.getSelectionModel().getSelectedIndex();
-		listView.getSelectionModel().clearSelection();
-		listView.getSelectionModel().select(x);
+		System.out.println(x);
+		if (x==-1) {
+			//Show selected Item
+			songName.setEditable(false);
+			songArtist.setEditable(false);
+			songAlbum.setEditable(false);
+			songYear.setEditable(false);
+			
+			//easier to understand UI so it makes sense that they cannot edit 
+			songName.setStyle(nonEditableTextField);
+			songArtist.setStyle(nonEditableTextField);
+			songAlbum.setStyle(nonEditableTextField);
+			songYear.setStyle(nonEditableTextField);
+			songName.setPromptText("");
+			songArtist.setPromptText("");
+			songAlbum.setPromptText("");
+			songYear.setPromptText("");
+			addConfirm.setVisible(false);
+			editConfirm.setVisible(false);
+			addEditDel.setDisable(false);
+			addConfirm.setVisible(false);
+			editConfirm.setVisible(false);
+			addEditDel.setDisable(false);
+			
+		}else {
+			listView.getSelectionModel().clearSelection();
+			listView.getSelectionModel().select(x);
+		}
 		
 		
 	}
