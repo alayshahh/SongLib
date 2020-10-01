@@ -6,12 +6,14 @@
 
 package view;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+//import java.io.BufferedReader;
+//import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
+//import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -65,10 +67,7 @@ public class ViewController {
 		
 		//songs to test methods for now
 		
-		Song x = new Song ("one", "x");
-		Song y = new Song("two", "y");
-		Song z = new Song("song", "z");
-		Song w = new Song("one", "w");
+		
 		
 		obsList = FXCollections.observableArrayList(); //here we would populate it with the song array returned by the get from file method
 		
@@ -80,6 +79,9 @@ public class ViewController {
 		//use Collections method to sort instead of making our own sort method
 		
 		FXCollections.sort(obsList, byTitleAndArtist);
+		readData();
+		
+//		makeFile();
 		
 		//user cannot edit the names until they hit edit
 		songName.setEditable(false);
@@ -114,46 +116,89 @@ public class ViewController {
 		
 	}
 	
-	public void makeFile() throws IOException{
-		File songList = new File ("songList.txt");
-		
-		if (songList.exists()){
-			songList.delete();
+	public void makeFile() {
+//		File songList = new File ("songList.txt");
+//		
+//		if (songList.exists()){
+//			songList.delete();
+//		}
+//		if(songList.length() == 0) {
+//			return;
+//		}
+//		songList.createNewFile();	
+//		
+//		BufferedWriter write = new BufferedWriter(new FileWriter(songList, true));
+//		write.append(' ');
+//		write.append((CharSequence) obsList);
+//		write.close();
+		try {
+			System.out.println(":P");
+			FileWriter songToLib = new FileWriter("src/view/LibOfSongs.txt");
+			songToLib.write(obsList.size()+"\n");
+			for (int i=0;i<obsList.size(); i++) {
+				songToLib.write(obsList.get(i).fileWrite()+"\n");
+			}
+			songToLib.close();
+			System.out.println("Successfully wrote to the file.");
+		}catch(IOException ex) {
+			ex.printStackTrace();
 		}
-		if(songList.length() == 0) {
-			return;
-		}
-		songList.createNewFile();	
-		
-		BufferedWriter write = new BufferedWriter(new FileWriter(songList, true));
-		write.append(' ');
-		write.append((CharSequence) obsList);
-		write.close();
-	
 		/*FileWriter insert = new FileWriter(songList);
 		insert.write(obsList.size());
 		insert.close();*/
 	}
 	
-	public void readData() throws IOException {
-		try {
-			String input;
-			FileReader readFromFile = new FileReader("songList.txt");
-			BufferedReader read = new BufferedReader(readFromFile);
-			
-			while((input = read.readLine()) != null) {
-				System.out.println(input);
-			}
-			read.close();
-		}
-		catch(Exception x){
-			x.printStackTrace();
-		}
+	public void readData() {
+//		try {
+//			String input;
+//			FileReader readFromFile = new FileReader("src/view/libOfSongs.txt");
+//			BufferedReader read = new BufferedReader(readFromFile);
+//			
+//			while((input = read.readLine()) != null) {
+//				System.out.println(input);
+//			}
+//			read.close();
+//		}
+//		catch(Exception x){
+//			x.printStackTrace();
+//		}
 		/*int length = obsList.size();
 		FileWriter writeTo = new FileWriter("songList.txt");
 		for(int i = 0; i < length;i++) {
 			writeTo(obsList.get(songName))
 		}*/
+		try {
+			File library = new File ("src/view/LibOfSongs.txt");
+			Scanner reader = new Scanner(library);
+			String input = reader.nextLine();
+			int numSongs = Integer.parseInt(input);
+			System.out.println(input + " "+ numSongs);
+			for ( int i =0; i<numSongs;i++) {
+				input  = reader.nextLine();
+				String songData [] = input.split("\\|");
+				Song curSong = new Song(songData[0], songData[1]);
+				if(songData.length>2) {
+					if (!songData[2].isEmpty()||songData[2]!=null) {
+						curSong.setAlbum(songData[2]);
+					}
+				}
+				if (songData.length>3) {
+					if (!songData[3].isEmpty()||songData[3]!=null) {
+						curSong.setYear(songData[3]);
+					}
+				}
+				
+				obsList.add(curSong);
+				System.out.println(input);
+			
+			}
+			reader.close();
+		}catch(FileNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		Comparator<Song> byTitleAndArtist = Comparator.comparing(Song::toLowerCaseString);
+		FXCollections.sort(obsList, byTitleAndArtist);
+		
 		
 	}
 	
@@ -329,6 +374,7 @@ public class ViewController {
 				obsList.add(addThis);
 				Comparator<Song> byTitleAndArtist = Comparator.comparing(Song::toLowerCaseString);
 				FXCollections.sort(obsList, byTitleAndArtist);
+				makeFile();
 				listView.getSelectionModel().select(obsList.indexOf(addThis));
 			}
 		
@@ -341,6 +387,7 @@ public class ViewController {
     			obsList.add(addThis);
     			Comparator<Song> byTitleAndArtist = Comparator.comparing(Song::toLowerCaseString);
     			FXCollections.sort(obsList, byTitleAndArtist);
+    			makeFile();
     			listView.getSelectionModel().select(obsList.indexOf(addThis));
  
     		
@@ -409,6 +456,7 @@ public class ViewController {
 			}
 		listView.getSelectionModel().select(newIndex);
 		obsList.remove(curIndex);
+		makeFile();
 	}
 		
 	}

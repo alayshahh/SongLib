@@ -78,5 +78,9 @@ public class Song {
 		return songTitle + " by "+ songArtist;
 	}
 	
+	public String fileWrite() {
+		return songTitle+"|"+songArtist+"|"+songAlbum+"|"+songYear; 
+	}
+	
 
 }

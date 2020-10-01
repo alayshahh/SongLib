@@ -10,6 +10,8 @@ local.properties
 .loadpath
 .recommenders
 
+.DS_Store
+
 *.pdf
 
 # External tool builders
