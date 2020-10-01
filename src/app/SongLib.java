@@ -42,15 +42,6 @@ public class SongLib extends Application {
 	public static void main(String[] args) {
 		launch(args);
 		
-		String x = "abced|bSAS||a";
-		String y []= x.split("\\|");
-		System.out.println("y length ="+y.length);
-		for(int i =0; i<y.length; i++) {
-			if (y[i]!=null) {
-				System.out.println("y["+i+"]="+y[i]);
-			}
-		}
-		
 	}
 
 }
