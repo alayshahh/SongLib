@@ -171,7 +171,19 @@ public class ViewController {
 			File library = new File ("src/view/LibOfSongs.txt");
 			Scanner reader = new Scanner(library);
 			String input = reader.nextLine();
-			int numSongs = Integer.parseInt(input);
+			if ( input==null|| input.isBlank()) {
+				reader.close();
+				makeFile();
+				return;
+			}
+			int numSongs = 0;
+			try {
+				numSongs = Integer.parseInt(input);
+			}catch(Exception e) {
+				reader.close();
+				makeFile();
+				return;
+			}
 			System.out.println(input + " "+ numSongs);
 			for ( int i =0; i<numSongs;i++) {
 				input  = reader.nextLine();
