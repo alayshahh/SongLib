@@ -170,6 +170,11 @@ public class ViewController {
 		try {
 			File library = new File ("src/view/LibOfSongs.txt");
 			Scanner reader = new Scanner(library);
+			if(!reader.hasNextLine()){
+				reader.close();
+				makeFile();
+				return;
+			}
 			String input = reader.nextLine();
 			if ( input==null|| input.isBlank()) {
 				reader.close();
